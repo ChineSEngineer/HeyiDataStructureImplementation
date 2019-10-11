@@ -1,1 +1,1 @@
-g++ -I. rbtree.cpp tree.cpp -c -Wall
+g++ -I. rbtree.cpp tree.cpp debug/PrintTree.cpp -c -Wall
