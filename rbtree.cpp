@@ -6,40 +6,40 @@ namespace heyi {
 
 RBTree::RBTree() : Tree() {}
 
+RBTree::~RBTree() {}
+
 void RBTree::rb_insert(int value) {
     RBTreeNode* pre = nullptr;
     RBTreeNode* cur = root();
-    if (root() == nullptr) {
-        this->set_root(new RBTreeNode(value));
-        return;
-    }
 
-    while(cur != nullptr) {
-        if (cur->value() <= value) {
+    while (cur != nullptr) {
+        if (value < cur->value()) {
             cur = cur->left();
         } else {
             cur = cur->right();
         }
         pre = cur;
     }
-    if(cur == pre->left()) {
-        pre->set_left(new RBTreeNode(value));
-        pre->left()->set_parent(pre);
-        rb_insert_fixup(pre->left());
+    
+    RBTreeNode* node = new RBTreeNode(value, RBColor::RED); 
+    if (pre == nullptr) {
+        this->set_root(node);
     } else {
-        if(cur != pre->right())
-            throw std::string(__FUNCTION__) + ": Wrong Pointer";
-        pre->set_right(new RBTreeNode(value));
-        pre->right()->set_parent(pre);
-        rb_insert_fixup(pre->right());
+        if (value < pre->value()) {
+            pre->set_left(node);
+        } else {
+            pre->set_right(node);
+        }
     }
+
+    rb_insert_fixup(node);    
 }
 
 RBTreeNode* RBTree::rb_search(int value) {
     return rb_search_helper(root(), value);
 }
 
-/* Assume node1 is not null */
+/* Assume node1 and node1->right is not null */
 void RBTree::left_rotate(RBTreeNode* node1) {
     if(node1 == nullptr || node1->right() == nullptr) {
         throw std::string(__FUNCTION__) + ":rotating node is nil";
@@ -48,14 +48,14 @@ void RBTree::left_rotate(RBTreeNode* node1) {
     RBTreeNode* node2 = node1->right();
     //node 1 adopt the node2's left child
     node1->set_right(node2->left());
-    if(node2->left()->parent() != nullptr) {
-        node2->left()->set_parent(node1->right());
+    if(node2->left() != nullptr) {
+        node2->left()->set_parent(node1);
     }
     //node1 release his parent to node2
+    node2->set_parent(node1->parent());
     if(node1 == this->root()) {
         this->set_root(node2);
     } else {
-        node2->set_parent(node1->parent());
         if(node1 == node1->parent()->left()) {
             node1->parent()->set_left(node2);
         } else {
@@ -76,14 +76,14 @@ void RBTree::right_rotate(RBTreeNode* node1) {
     RBTreeNode* node2 = (RBTreeNode*) node1->right();
     //node 1 adopt the node2's right child
     node1->set_left(node2->right());
-    if(node2->right()->parent() != nullptr) {
-        node2->right()->set_parent(node1->left());
+    if(node2->right() != nullptr) {
+        node2->right()->set_parent(node1);
     }
     //node1 release his parent to node2
+    node2->set_parent(node1->parent());
     if(node1 == this->root()) {
         this->set_root(node2);
     } else {
-        node2->set_parent(node1->parent());
         if(node1 == node1->parent()->left()) {
             node1->parent()->set_left(node2);
         } else {
@@ -96,9 +96,48 @@ void RBTree::right_rotate(RBTreeNode* node1) {
 }
 
 void RBTree::rb_insert_fixup(RBTreeNode* node) {
+    //TODO
+    while (node != root()
+           && node->parent()->color() == RBColor::RED) {
+        if (node->parent() == node->parent()->parent()->left()) {
+            RBTreeNode* uncle = node->parent()->parent()->right();
+            if (uncle != nullptr && uncle->color() == RBColor::RED) {
+                uncle->set_color(RBColor::BLACK);
+                node->parent()->set_color(RBColor::BLACK);
+                node->parent()->parent()->set_color(RBColor::RED);
+                node = node->parent()->parent();
+            } else {
+                if (node == node->parent()->right()) {
+                    node = node->parent();
+                    left_rotate(node);
+                }
+                node->parent()->set_color(RBColor::BLACK);
+                node->parent()->parent()->set_color(RBColor::RED);
+                right_rotate(node->parent()->parent());
+            }
+        } else {
+            RBTreeNode* uncle = node->parent()->parent()->left();
+            if (uncle != nullptr && uncle->color() == RBColor::RED) {
+                uncle->set_color(RBColor::BLACK);
+                node->parent()->set_color(RBColor::BLACK);
+                node->parent()->parent()->set_color(RBColor::RED);
+                node = node->parent()->parent();
+            } else {
+                if (node == node->parent()->left()) {
+                    node = node->parent();
+                    right_rotate(node);
+                }
+                node->parent()->set_color(RBColor::BLACK);
+                node->parent()->parent()->set_color(RBColor::RED);
+                left_rotate(node->parent()->parent());
+            }
+        }
+    }
 
+    root()->set_color(RBColor::RED);
 }
 
+//TODO: make search inheritance
 RBTreeNode* RBTree::rb_search_helper(RBTreeNode* node, int value) {
     if (node == nullptr) {
         return nullptr;

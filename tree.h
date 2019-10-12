@@ -14,7 +14,7 @@ class TreeNode {
         this->set_right(nullptr);
         this->set_parent(nullptr);
     }
-    virtual ~TreeNode() {}
+    virtual ~TreeNode();
     virtual TreeNode* left() { return _left; }
     virtual TreeNode* right() { return _right; }
     virtual TreeNode* parent() { return _p; }
@@ -37,14 +37,15 @@ class Tree {
     TreeNode* _root;
   public:
     Tree();
-    virtual ~Tree() {}
+    virtual ~Tree();
     virtual TreeNode* root() { return _root; }
-    void set_root(TreeNode* root) {_root = root;}
+    void set_root(TreeNode* root);
 
     int height();
     TreeNode* dfs_search(int value);
   private:
     TreeNode* dfs_search_helper(TreeNode* node, int value);
+    void delete_subtree(TreeNode* node);
 };
 
 }//heyi

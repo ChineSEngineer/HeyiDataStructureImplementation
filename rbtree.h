@@ -16,6 +16,9 @@ class RBTreeNode : public TreeNode {
     RBTreeNode(int value) : TreeNode(value) {
         this->set_color(RBColor::BLACK);
     }
+    RBTreeNode(int value, RBColor color) : TreeNode(value) {
+        this->set_color(color);
+    }
     virtual ~RBTreeNode() {}
     virtual RBTreeNode* left() override {
         return static_cast<RBTreeNode*>(TreeNode::left());
@@ -37,7 +40,7 @@ class RBTreeNode : public TreeNode {
 class RBTree : public Tree {
   public:
     RBTree();
-    virtual ~RBTree() {};
+    virtual ~RBTree();
     void rb_insert(int value);
     RBTreeNode* rb_search(int value);
     //void rb_delete(RBTree* rbtree, int value);
