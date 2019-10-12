@@ -37,6 +37,7 @@ class Tree {
     TreeNode* _root;
   public:
     Tree();
+    Tree(TreeNode* root);
     virtual ~Tree();
     virtual TreeNode* root() { return _root; }
     void set_root(TreeNode* root);

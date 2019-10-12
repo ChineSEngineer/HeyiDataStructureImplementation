@@ -38,6 +38,10 @@ Tree::Tree() {
     this->set_root(nullptr);
 }
 
+Tree::Tree(TreeNode* root) {
+    this->set_root(root);
+}
+
 Tree::~Tree() {
     delete_subtree(this->root());
 }
@@ -61,7 +65,7 @@ TreeNode* Tree::dfs_search(int value) {
     return dfs_search_helper(root(), value);
 }
 
-void delete_subtree(TreeNode* node) {
+void Tree::delete_subtree(TreeNode* node) {
     if (node == nullptr) {
         return;
     }
