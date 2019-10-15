@@ -5,6 +5,8 @@
 #include <queue>
 #include <unordered_map>
 
+#define UNDERLINE_OUTPUT "\033[4m"
+#define NORMAL_OUTPUT "\033[0m"
 
 namespace heyi{
 
@@ -23,7 +25,10 @@ class PrintTree {
 
         queue<TreeNode*> queue;
         queue.push(node);
-        while (!queue.empty()) {
+        int i = 0;
+        //while (!queue.empty()) {
+        while (i <= node->height()) {
+            i++;
             int sz = queue.size();
             for (int i = 0; i < sz; i++) {
                 TreeNode* old = queue.front();
@@ -32,14 +37,43 @@ class PrintTree {
                     queue.push(old->left());
                     queue.push(old->right());
                     if (old->left() != nullptr) {
-                        cout << setw(ele_length * ump[old->left()]) << "";
+                        if (old->left()->left() != nullptr) {
+                            cout << setw(ele_length * ump[old->left()->left()]) << "";
+                        } 
+                        cout << UNDERLINE_OUTPUT 
+                             << setw(ele_length) << "" 
+                             << NORMAL_OUTPUT;
+                        if (old->left()->right() != nullptr) {
+                            cout << UNDERLINE_OUTPUT 
+                                 << setw(ele_length * ump[old->left()->right()]) << "" 
+                                 << NORMAL_OUTPUT;
+                        } 
                     }
-                    cout << setw(ele_length) << old->value();
+                    int val_length = std::to_string(old->value()).length();
+                    cout << UNDERLINE_OUTPUT
+                         << setw((ele_length - val_length) / 2) << "" 
+                         << NORMAL_OUTPUT;
+                    cout << old->value();
+                    cout << UNDERLINE_OUTPUT
+                         << setw((ele_length - val_length + 1) / 2) << "" 
+                         << NORMAL_OUTPUT;
                     if (old->right() != nullptr) { 
-                        cout << setw(ele_length * ump[old->right()]) << "";
+                        if (old->right()->left() != nullptr) {
+                            cout << UNDERLINE_OUTPUT 
+                                 << setw(ele_length * ump[old->right()->left()]) << "" 
+                                 << NORMAL_OUTPUT;
+                        } 
+                        cout << UNDERLINE_OUTPUT 
+                             << setw(ele_length) << "" 
+                             << NORMAL_OUTPUT;
+                        if (old->right()->right() != nullptr) {
+                            cout << setw(ele_length * ump[old->right()->right()]) << "";
+                        } 
                     }
+                    cout << NORMAL_OUTPUT;
                     cout << setw(ele_length) << "";
                 } else {
+                    queue.push(nullptr);
                     cout << setw(ele_length) << "";
                 }
             }
