@@ -1,4 +1,4 @@
-#include <tree.h>
+#include <rbtree.h>
 
 #include <iomanip>
 #include <iostream>
@@ -7,10 +7,28 @@
 
 #define UNDERLINE_OUTPUT "\033[4m"
 #define NORMAL_OUTPUT "\033[0m"
+#define RED_OUTPUT "\033[0;31m"
+
+
+std::ostream& operator<<(std::ostream& os, heyi::TreeNode* node) {
+    if (node == nullptr) {
+        return os;
+    }
+    heyi::RBTreeNode* rb_node = dynamic_cast<heyi::RBTreeNode*>(node);
+    if (rb_node  != nullptr && rb_node->color() == heyi::RBColor::RED) {
+            os << RED_OUTPUT << rb_node->value() << NORMAL_OUTPUT;
+    } else {
+        os << node->value();
+    }
+    return os;
+}
+
 
 namespace heyi{
 
 using namespace std;
+
+
 
 class PrintTree {
   public:
@@ -50,10 +68,10 @@ class PrintTree {
                         } 
                     }
                     int val_length = std::to_string(old->value()).length();
-                    cout << UNDERLINE_OUTPUT
+                    cout << UNDERLINE_OUTPUT << left
                          << setw((ele_length - val_length) / 2) << "" 
-                         << NORMAL_OUTPUT;
-                    cout << old->value();
+                         << NORMAL_OUTPUT << right;
+                    cout << UNDERLINE_OUTPUT << old << NORMAL_OUTPUT;
                     cout << UNDERLINE_OUTPUT
                          << setw((ele_length - val_length + 1) / 2) << "" 
                          << NORMAL_OUTPUT;
