@@ -57,12 +57,12 @@ int Tree::height() {
     return this->root()->height();
 }
 
-TreeNode* Tree::dfs_search_helper(TreeNode* node, int value) {
+TreeNode* Tree::dfs_search(TreeNode* node, int value) {
     return nullptr;
 }
 
-TreeNode* Tree::dfs_search(int value) {
-    return dfs_search_helper(root(), value);
+TreeNode* Tree::search(int value) {
+    return dfs_search(root(), value);
 }
 
 void Tree::delete_subtree(TreeNode* node) {

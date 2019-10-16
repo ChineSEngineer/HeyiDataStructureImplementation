@@ -43,9 +43,9 @@ class Tree {
     void set_root(TreeNode* root);
 
     int height();
-    TreeNode* dfs_search(int value);
+    virtual TreeNode* search(int value);
   private:
-    TreeNode* dfs_search_helper(TreeNode* node, int value);
+    TreeNode* dfs_search(TreeNode* node, int value);
     void delete_subtree(TreeNode* node);
 };
 

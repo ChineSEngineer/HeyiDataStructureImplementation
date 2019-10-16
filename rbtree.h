@@ -41,11 +41,12 @@ class RBTree : public Tree {
   public:
     RBTree();
     virtual ~RBTree();
-    void rb_insert(int value);
-    RBTreeNode* rb_search(int value);
+    virtual void insert(int value);
+    RBTreeNode* search(int value) override;
     //void rb_delete(RBTree* rbtree, int value);
   private:
-    virtual RBTreeNode* root() {return static_cast<RBTreeNode*>(Tree::root());}
+    virtual RBTreeNode* root() override; 
+    using Tree::set_root;
     void left_rotate(RBTreeNode* node1);
     void right_rotate(RBTreeNode* node1);
     void rb_insert_fixup(RBTreeNode* node);

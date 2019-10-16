@@ -12,7 +12,7 @@ RBTree::RBTree() : Tree() {}
 
 RBTree::~RBTree() {}
 
-void RBTree::rb_insert(int value) {
+void RBTree::insert(int value) {
     RBTreeNode* pre = nullptr;
     RBTreeNode* cur = root();
 
@@ -40,8 +40,12 @@ void RBTree::rb_insert(int value) {
     rb_insert_fixup(node);    
 }
 
-RBTreeNode* RBTree::rb_search(int value) {
+RBTreeNode* RBTree::search(int value) {
     return rb_search_helper(root(), value);
+}
+
+RBTreeNode* RBTree::root() {
+    return static_cast<RBTreeNode*>(Tree::root());
 }
 
 /* Assume node1 and node1->right is not null */
