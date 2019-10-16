@@ -1,6 +1,10 @@
 #include <rbtree.h>
 #include <string>
 
+#include <iostream>
+#define UNDERLINE_OUTPUT "\033[4m"
+#define NORMAL_OUTPUT "\033[0m"
+#define RED_OUTPUT "\033[0;31m"
 
 namespace heyi {
 
@@ -13,12 +17,12 @@ void RBTree::rb_insert(int value) {
     RBTreeNode* cur = root();
 
     while (cur != nullptr) {
+        pre = cur;
         if (value < cur->value()) {
             cur = cur->left();
         } else {
             cur = cur->right();
         }
-        pre = cur;
     }
     
     RBTreeNode* node = new RBTreeNode(value, RBColor::RED); 
@@ -30,6 +34,7 @@ void RBTree::rb_insert(int value) {
         } else {
             pre->set_right(node);
         }
+        node->set_parent(pre);
     }
 
     rb_insert_fixup(node);    
@@ -73,7 +78,7 @@ void RBTree::right_rotate(RBTreeNode* node1) {
         throw std::string(__FUNCTION__) + ":rotating node is nil";
     }
 
-    RBTreeNode* node2 = (RBTreeNode*) node1->right();
+    RBTreeNode* node2 = (RBTreeNode*) node1->left();
     //node 1 adopt the node2's right child
     node1->set_left(node2->right());
     if(node2->right() != nullptr) {
@@ -134,7 +139,7 @@ void RBTree::rb_insert_fixup(RBTreeNode* node) {
         }
     }
 
-    root()->set_color(RBColor::RED);
+    root()->set_color(RBColor::BLACK);
 }
 
 //TODO: make search inheritance
