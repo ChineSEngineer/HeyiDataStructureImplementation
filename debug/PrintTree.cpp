@@ -7,7 +7,7 @@
 
 #define UNDERLINE_OUTPUT "\033[4m"
 #define NORMAL_OUTPUT "\033[0m"
-#define RED_OUTPUT "\033[0;31m"
+#define RED_UNDERLINE_OUTPUT "\033[4;31m"
 
 
 std::ostream& operator<<(std::ostream& os, heyi::TreeNode* node) {
@@ -16,9 +16,9 @@ std::ostream& operator<<(std::ostream& os, heyi::TreeNode* node) {
     }
     heyi::RBTreeNode* rb_node = dynamic_cast<heyi::RBTreeNode*>(node);
     if (rb_node  != nullptr && rb_node->color() == heyi::RBColor::RED) {
-            os << RED_OUTPUT << rb_node->value() << NORMAL_OUTPUT;
+        os << RED_UNDERLINE_OUTPUT << rb_node->value() << NORMAL_OUTPUT;
     } else {
-        os << node->value();
+        os << UNDERLINE_OUTPUT << node->value() << NORMAL_OUTPUT;
     }
     return os;
 }
@@ -43,8 +43,8 @@ class PrintTree {
 
         queue<TreeNode*> queue;
         queue.push(node);
+
         int i = 0;
-        //while (!queue.empty()) {
         while (i <= node->height()) {
             i++;
             int sz = queue.size();
@@ -54,46 +54,10 @@ class PrintTree {
                 if (old != nullptr) {
                     queue.push(old->left());
                     queue.push(old->right());
-                    if (old->left() != nullptr) {
-                        if (old->left()->left() != nullptr) {
-                            cout << setw(ele_length * ump[old->left()->left()]) << "";
-                        } 
-                        cout << UNDERLINE_OUTPUT 
-                             << setw(ele_length) << "" 
-                             << NORMAL_OUTPUT;
-                        if (old->left()->right() != nullptr) {
-                            cout << UNDERLINE_OUTPUT 
-                                 << setw(ele_length * ump[old->left()->right()]) << "" 
-                                 << NORMAL_OUTPUT;
-                        } 
-                    }
-                    int val_length = std::to_string(old->value()).length();
-                    cout << UNDERLINE_OUTPUT << left
-                         << setw((ele_length - val_length) / 2) << "" 
-                         << NORMAL_OUTPUT << right;
-                    cout << UNDERLINE_OUTPUT << old << NORMAL_OUTPUT;
-                    cout << UNDERLINE_OUTPUT
-                         << setw((ele_length - val_length + 1) / 2) << "" 
-                         << NORMAL_OUTPUT;
-                    if (old->right() != nullptr) { 
-                        if (old->right()->left() != nullptr) {
-                            cout << UNDERLINE_OUTPUT 
-                                 << setw(ele_length * ump[old->right()->left()]) << "" 
-                                 << NORMAL_OUTPUT;
-                        } 
-                        cout << UNDERLINE_OUTPUT 
-                             << setw(ele_length) << "" 
-                             << NORMAL_OUTPUT;
-                        if (old->right()->right() != nullptr) {
-                            cout << setw(ele_length * ump[old->right()->right()]) << "";
-                        } 
-                    }
-                    cout << NORMAL_OUTPUT;
-                    cout << setw(ele_length) << "";
                 } else {
                     queue.push(nullptr);
-                    cout << setw(ele_length) << "";
                 }
+                print_node(old, ele_length, ump);
             }
             cout << endl;
         }
@@ -116,9 +80,48 @@ class PrintTree {
     }
 
   private:
-    //void print_node(TreeNode* node, int depth) {
-    //    int h = node->height();
-    //}
+    void static print_node(TreeNode* old, int ele_length, unordered_map<TreeNode*, int>& ump) {
+        if (old == nullptr) {
+            cout << setw(ele_length) << "";
+            return; 
+        }
+        if (old->left() != nullptr) {
+            if (old->left()->left() != nullptr) {
+                cout << setw(ele_length * ump[old->left()->left()]) << "";
+            } 
+            cout << UNDERLINE_OUTPUT 
+                 << setw(ele_length) << "" 
+                 << NORMAL_OUTPUT;
+            if (old->left()->right() != nullptr) {
+                cout << UNDERLINE_OUTPUT 
+                     << setw(ele_length * ump[old->left()->right()]) << "" 
+                     << NORMAL_OUTPUT;
+            } 
+        }
+        int val_length = std::to_string(old->value()).length();
+        cout << UNDERLINE_OUTPUT << left
+             << setw((ele_length - val_length) / 2) << "" 
+             << NORMAL_OUTPUT << right;
+        cout << old;  // ostream overload
+        cout << UNDERLINE_OUTPUT
+             << setw((ele_length - val_length + 1) / 2) << "" 
+             << NORMAL_OUTPUT;
+        if (old->right() != nullptr) { 
+            if (old->right()->left() != nullptr) {
+                cout << UNDERLINE_OUTPUT 
+                     << setw(ele_length * ump[old->right()->left()]) << "" 
+                     << NORMAL_OUTPUT;
+            } 
+            cout << UNDERLINE_OUTPUT 
+                 << setw(ele_length) << "" 
+                 << NORMAL_OUTPUT;
+            if (old->right()->right() != nullptr) {
+                cout << setw(ele_length * ump[old->right()->right()]) << "";
+            } 
+        }
+        cout << NORMAL_OUTPUT;
+        cout << setw(ele_length) << "";
+    }
 
 
 };
