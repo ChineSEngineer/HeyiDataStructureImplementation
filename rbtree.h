@@ -43,15 +43,19 @@ class RBTree : public Tree {
     virtual ~RBTree();
     virtual void insert(int value);
     RBTreeNode* search(int value) override;
-    //void rb_delete(RBTree* rbtree, int value);
+    void del(RBTreeNode* node);
+    int minimum();
+    RBTreeNode* successor(RBTreeNode* node);
   private:
     virtual RBTreeNode* root() override; 
     using Tree::set_root;
+
     void left_rotate(RBTreeNode* node1);
     void right_rotate(RBTreeNode* node1);
     void rb_insert_fixup(RBTreeNode* node);
     RBTreeNode* rb_search_helper(RBTreeNode*, int value);
     void rb_delete_fixup(RBTreeNode* node);
+    RBTreeNode* minimum_subtree(RBTreeNode* node);
 };
 
 } //heyi

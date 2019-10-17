@@ -1,10 +1,7 @@
 #include <rbtree.h>
 #include <string>
-
 #include <iostream>
-#define UNDERLINE_OUTPUT "\033[4m"
-#define NORMAL_OUTPUT "\033[0m"
-#define RED_OUTPUT "\033[0;31m"
+#include <cassert>
 
 namespace heyi {
 
@@ -42,6 +39,12 @@ void RBTree::insert(int value) {
 
 RBTreeNode* RBTree::search(int value) {
     return rb_search_helper(root(), value);
+}
+
+int RBTree::minimum() {
+    assert(root() != nullptr);
+    TreeNode* minimum_node = minimum_subtree(root());
+    return minimum_node->value();
 }
 
 RBTreeNode* RBTree::root() {
@@ -159,6 +162,30 @@ RBTreeNode* RBTree::rb_search_helper(RBTreeNode* node, int value) {
     } else {
         return rb_search_helper(node->right(), value);
     }
+}
+
+RBTreeNode* RBTree::minimum_subtree(RBTreeNode* node) {
+    assert(node != nullptr);
+    while (node->left() != nullptr) {
+        node = node->left();
+    }
+    return node;
+}
+
+RBTreeNode* RBTree::successor(RBTreeNode* node) {
+    assert(node != nullptr);
+    if (node->right() != nullptr) {
+        return minimum_subtree(node->right());
+    }
+
+    while(node->parent() != nullptr) {
+        if (node == node->parent()->left()) {
+            return node->parent();
+        } else {
+            node = node->parent();
+        }
+    }
+    return nullptr;
 }
 
 } //heyi

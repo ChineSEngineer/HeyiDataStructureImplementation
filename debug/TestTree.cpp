@@ -60,8 +60,25 @@ int main(int argc, char **argv) {
     rb_tree->insert(-500);
     PrintTree::print_tree(rb_tree, 4);
 
-    TreeNode* tn = tree->search(1);
-    RBTreeNode* rbn = rb_tree->search(1);
+    //TreeNode* tn = tree->search(1);
+    //cout << "Search 1 in tree, got: " << tn->value();
+    RBTreeNode* rbn_1 = rb_tree->search(1);
+    cout << "Search 1 in rbtree, got: " << rbn_1->value() << endl;
+    RBTreeNode* rbn_3 = rb_tree->search(3);
+    cout << "Search 3 in rbtree, got: " << rbn_3->value() << endl;
+    RBTreeNode* rbn_500 = rb_tree->search(500);
+    cout << "Search 500 in rbtree, got: " << rbn_500->value() << endl;
+    RBTreeNode* rbn_n100 = rb_tree->search(-100);
+    cout << "Search -100 in rbtree, got: " << rbn_n100->value() << endl;
+    
+    RBTreeNode* rbn1_suc = rb_tree->successor(rbn_1);
+    cout << "Search successor of 1 in rbtree, got: " << rbn1_suc->value() << endl;
+    RBTreeNode* rbn3_suc = rb_tree->successor(rbn_3);
+    cout << "Search successor of 3 in rbtree, got: " << rbn3_suc->value() << endl;
+    RBTreeNode* rbn500_suc = rb_tree->successor(rbn_500);
+    cout << "Search successor of 500 in rbtree, got: 0x" << static_cast<void*>(rbn500_suc) << endl;
+    RBTreeNode* rbnn100_suc = rb_tree->successor(rbn_n100);
+    cout << "Search successor of -100 in rbtree, got: " << rbnn100_suc->value() << endl;
     
 }
 
