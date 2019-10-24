@@ -41,6 +41,15 @@ RBTreeNode* RBTree::search(int value) {
     return rb_search_helper(root(), value);
 }
 
+//void RBTree::del(RBTreeNode* node) {
+//    RBTreeNode* to_delete = node;
+//
+//    if (node->left() == nullptr) {
+//        this->transparent(to_delete, to_delete->right());
+//    }
+//}
+
+
 int RBTree::minimum() {
     assert(root() != nullptr);
     TreeNode* minimum_node = minimum_subtree(root());
@@ -186,6 +195,21 @@ RBTreeNode* RBTree::successor(RBTreeNode* node) {
         }
     }
     return nullptr;
+}
+
+
+void RBTree::transparent(RBTreeNode* node1, RBTreeNode* node2) {
+    if (node1 == root()) {
+        set_root(node2);
+        node2->set_parent(nullptr);
+        return;
+    }
+    if (node1 == node1->parent()->left()) {
+        node1->parent()->set_left(node2);
+    } else {
+        node1->parent()->set_right(node2);
+    }
+    node2->set_parent(node1->parent());
 }
 
 } //heyi
