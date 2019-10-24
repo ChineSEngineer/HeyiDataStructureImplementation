@@ -48,6 +48,9 @@ Tree::~Tree() {
 
 void Tree::set_root(TreeNode* root) {
     _root = root; 
+    if (root != nullptr) {
+        root->set_parent(nullptr);
+    }
 }
 
 int Tree::height() {
@@ -57,12 +60,12 @@ int Tree::height() {
     return this->root()->height();
 }
 
-TreeNode* Tree::dfs_search(TreeNode* node, int value) {
-    return nullptr;
+TreeNode* Tree::search(int value) {
+    return search_subtree(root(), value);
 }
 
-TreeNode* Tree::search(int value) {
-    return dfs_search(root(), value);
+TreeNode* Tree::search_subtree(TreeNode* node, int value) {
+    return nullptr;
 }
 
 void Tree::delete_subtree(TreeNode* node) {

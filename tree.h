@@ -26,6 +26,7 @@ class TreeNode {
 
     int height();
     int depth();
+    TreeNode* successor(TreeNode* node);
 
   private:
     int height_helper(TreeNode*);
@@ -45,7 +46,7 @@ class Tree {
     int height();
     virtual TreeNode* search(int value);
   private:
-    TreeNode* dfs_search(TreeNode* node, int value);
+    TreeNode* search_subtree(TreeNode* node, int value);
     void delete_subtree(TreeNode* node);
 };
 
