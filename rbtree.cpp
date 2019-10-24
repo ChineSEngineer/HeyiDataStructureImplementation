@@ -41,13 +41,36 @@ RBTreeNode* RBTree::search(int value) {
     return rb_search_helper(root(), value);
 }
 
-//void RBTree::del(RBTreeNode* node) {
-//    RBTreeNode* to_delete = node;
-//
-//    if (node->left() == nullptr) {
-//        this->transparent(to_delete, to_delete->right());
-//    }
-//}
+void RBTree::del(RBTreeNode* node) {
+    if (node == nullptr) {
+        return;
+    }
+
+    RBTreeNode* to_delete = node;
+
+    if (to_delete->left() == nullptr) {
+        this->transparent(to_delete, to_delete->right());
+    } else if (to_delete->right() == nullptr) {
+        this->transparent(to_delete, to_delete->left());
+    } else {
+        //node->left and node->right are not nullptr
+        RBTreeNode* successor=minimum_subtree(to_delete->right());
+        if (successor->parent() == to_delete) {
+            this->transparent(to_delete, successor);
+            successor->set_left(to_delete->left());
+            successor->left()->set_parent(successor);
+        } else {
+            transparent(successor, successor->right());
+            transparent(to_delete, successor);
+            successor->set_left(to_delete->left());
+            successor->left()->set_parent(successor);
+            successor->set_right(to_delete->right());
+            successor->right()->set_parent(successor);
+        }
+    }
+
+    delete to_delete;
+}
 
 
 int RBTree::minimum() {

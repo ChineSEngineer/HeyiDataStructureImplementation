@@ -60,8 +60,6 @@ int main(int argc, char **argv) {
     rb_tree->insert(-500);
     PrintTree::print_tree(rb_tree, 4);
 
-    //TreeNode* tn = tree->search(1);
-    //cout << "Search 1 in tree, got: " << tn->value();
     RBTreeNode* rbn_1 = rb_tree->search(1);
     cout << "Search 1 in rbtree, got: " << rbn_1->value() << endl;
     RBTreeNode* rbn_3 = rb_tree->search(3);
@@ -79,6 +77,40 @@ int main(int argc, char **argv) {
     cout << "Search successor of 500 in rbtree, got: 0x" << static_cast<void*>(rbn500_suc) << endl;
     RBTreeNode* rbnn100_suc = rb_tree->successor(rbn_n100);
     cout << "Search successor of -100 in rbtree, got: " << rbnn100_suc->value() << endl;
+
+    cout << "Delete -100 from rbtree" << endl;
+    rb_tree->del(rbn_n100);
+    PrintTree::print_tree(rb_tree, 4);
+
+    RBTreeNode* rbn_n50 = rb_tree->search(-50);
+    cout << "Delete -50 from rbtree" << endl;
+    rb_tree->del(rbn_n50);
+    PrintTree::print_tree(rb_tree, 4);
+
+    RBTreeNode* rbn_n1 = rb_tree->search(-1);
+    cout << "Delete -1 from rbtree" << endl;
+    rb_tree->del(rbn_n1);
+    PrintTree::print_tree(rb_tree, 4);
+
+    RBTreeNode* rbn_4 = rb_tree->search(4);
+    cout << "Delete 4 from rbtree" << endl;
+    rb_tree->del(rbn_4);
+    PrintTree::print_tree(rb_tree, 4);
+
+    RBTreeNode* rbn_5 = rb_tree->search(5);
+    cout << "Delete 5 from rbtree" << endl;
+    rb_tree->del(rbn_5);
+    PrintTree::print_tree(rb_tree, 4);
+
+    RBTreeNode* rbn_50 = rb_tree->search(50);
+    cout << "Delete 50 from rbtree" << endl;
+    rb_tree->del(rbn_50);
+    PrintTree::print_tree(rb_tree, 4);
+
+    RBTreeNode* rbn_400 = rb_tree->search(400);
+    cout << "Delete 400 from rbtree" << endl;
+    rb_tree->del(rbn_400);
+    PrintTree::print_tree(rb_tree, 4);
     
 }
 

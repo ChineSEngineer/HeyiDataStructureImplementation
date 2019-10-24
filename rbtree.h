@@ -43,6 +43,9 @@ class RBTree : public Tree {
     virtual ~RBTree();
     virtual void insert(int value);
     RBTreeNode* search(int value) override;
+    /*
+     * Assume node is in RBTree
+     */
     void del(RBTreeNode* node);
     int minimum();
     RBTreeNode* successor(RBTreeNode* node);
