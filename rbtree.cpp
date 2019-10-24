@@ -199,9 +199,10 @@ RBTreeNode* RBTree::successor(RBTreeNode* node) {
 
 
 void RBTree::transparent(RBTreeNode* node1, RBTreeNode* node2) {
+    assert(node1 != nullptr);
+
     if (node1 == root()) {
         set_root(node2);
-        node2->set_parent(nullptr);
         return;
     }
     if (node1 == node1->parent()->left()) {
@@ -209,7 +210,10 @@ void RBTree::transparent(RBTreeNode* node1, RBTreeNode* node2) {
     } else {
         node1->parent()->set_right(node2);
     }
-    node2->set_parent(node1->parent());
+
+    if (node2 != nullptr) {
+        node2->set_parent(node1->parent());
+    }
 }
 
 } //heyi

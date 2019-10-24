@@ -57,7 +57,7 @@ class RBTree : public Tree {
     void rb_delete_fixup(RBTreeNode* node);
     RBTreeNode* minimum_subtree(RBTreeNode* node);
     /*
-     * Assume node1, node2 is not nullptr
+     * Assume node1 is not nullptr
      * Give node1's parent to node2
      */
     void transparent(RBTreeNode* node1, RBTreeNode* node2);
