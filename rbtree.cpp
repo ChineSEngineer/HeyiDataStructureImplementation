@@ -41,34 +41,53 @@ RBTreeNode* RBTree::search(int value) {
     return rb_search_helper(root(), value);
 }
 
-void RBTree::del(RBTreeNode* node) {
-    if (node == nullptr) {
+void RBTree::del(RBTreeNode* to_delete) {
+    if (to_delete == nullptr) {
         return;
     }
 
-    RBTreeNode* to_delete = node;
+    RBTreeNode* real_delete; // The node which really disappears in term of color, to_delete's position&color may be taken over by the real_delete
+    RBTreeNode* real_delete_successor; // The node which takes over real_delete's position
+    RBTreeNode* real_delete_predecessor;
+    RBColor real_delete_color;
 
+    real_delete = to_delete;
+    real_delete_color = real_delete->color();
     if (to_delete->left() == nullptr) {
+        real_delete_successor = to_delete->right();
+        real_delete_predecessor = real_delete->parent();
         this->transparent(to_delete, to_delete->right());
     } else if (to_delete->right() == nullptr) {
+        real_delete_successor = to_delete->left();
+        real_delete_predecessor = real_delete->parent();
         this->transparent(to_delete, to_delete->left());
     } else {
-        //node->left and node->right are not nullptr
+        //node->left and node->right are not nullptr, thus successor should not be nullptr
         RBTreeNode* successor=minimum_subtree(to_delete->right());
+        real_delete = successor;
+        real_delete_color = real_delete->color();
+        real_delete_successor = real_delete->right();
         if (successor->parent() == to_delete) {
+            real_delete_predecessor = real_delete;
             this->transparent(to_delete, successor);
             successor->set_left(to_delete->left());
             successor->left()->set_parent(successor);
+            successor->set_color(to_delete->color());
         } else {
+            real_delete_predecessor = real_delete->parent();
             transparent(successor, successor->right());
             transparent(to_delete, successor);
             successor->set_left(to_delete->left());
             successor->left()->set_parent(successor);
             successor->set_right(to_delete->right());
             successor->right()->set_parent(successor);
+            successor->set_color(to_delete->color());
         }
     }
 
+    if (real_delete_color == RBColor::BLACK) {
+        rb_delete_fixup(real_delete_predecessor, real_delete_successor);
+    }
     delete to_delete;
 }
 
@@ -195,6 +214,9 @@ RBTreeNode* RBTree::rb_search_helper(RBTreeNode* node, int value) {
         return rb_search_helper(node->right(), value);
     }
 }
+
+void RBTree::rb_delete_fixup(RBTreeNode* node) {}
+
 
 RBTreeNode* RBTree::minimum_subtree(RBTreeNode* node) {
     assert(node != nullptr);

@@ -57,7 +57,7 @@ class RBTree : public Tree {
     void right_rotate(RBTreeNode* node1);
     void rb_insert_fixup(RBTreeNode* node);
     RBTreeNode* rb_search_helper(RBTreeNode*, int value);
-    void rb_delete_fixup(RBTreeNode* node);
+    void rb_delete_fixup(RBTreeNode* predecessor, RBTreeNode* node);
     RBTreeNode* minimum_subtree(RBTreeNode* node);
     /*
      * Assume node1 is not nullptr
