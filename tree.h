@@ -1,14 +1,16 @@
-#ifndef TREE_H
-#define TREE_H
+// Copyright ChineSEngineer
+#ifndef TREE_H_
+#define TREE_H_
 namespace heyi {
 class TreeNode {
-  private:
+ private:
     TreeNode* _left;
     TreeNode* _right;
     TreeNode* _p;
     int _value;
-  public:
-    TreeNode(int value) {
+
+ public:
+    explicit TreeNode(int value) {
         this->set_value(value);
         this->set_left(nullptr);
         this->set_right(nullptr);
@@ -28,28 +30,30 @@ class TreeNode {
     int depth();
     TreeNode* successor(TreeNode* node);
 
-  private:
+ private:
     int height_helper(TreeNode*);
 };
 
-//TODO: destructor!!!
+// TODO(heyi): destructor!!!
 class Tree {
-  private:
+ private:
     TreeNode* _root;
-  public:
+
+ public:
     Tree();
-    Tree(TreeNode* root);
+    explicit Tree(TreeNode* root);
     virtual ~Tree();
     virtual TreeNode* root() { return _root; }
     void set_root(TreeNode* root);
 
     int height();
     virtual TreeNode* search(int value);
-  private:
+
+ private:
     TreeNode* search_subtree(TreeNode* node, int value);
     void delete_subtree(TreeNode* node);
 };
 
-}//heyi
+}  // namespace heyi
 
-#endif //TREE_H
+#endif  // TREE_H_

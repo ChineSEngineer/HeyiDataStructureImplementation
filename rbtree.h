@@ -1,5 +1,6 @@
-#ifndef RBTREE_H
-#define RBTREE_H
+// Copyright ChineSEngineer
+#ifndef RBTREE_H_
+#define RBTREE_H_
 
 #include <tree.h>
 
@@ -11,9 +12,9 @@ enum class RBColor {
 };
 
 class RBTreeNode : public TreeNode {
-  public:
+ public:
     RBColor _color;
-    RBTreeNode(int value) : TreeNode(value) {
+    explicit RBTreeNode(int value) : TreeNode(value) {
         this->set_color(RBColor::BLACK);
     }
     RBTreeNode(int value, RBColor color) : TreeNode(value) {
@@ -38,7 +39,7 @@ class RBTreeNode : public TreeNode {
 };
 
 class RBTree : public Tree {
-  public:
+ public:
     RBTree();
     virtual ~RBTree();
     virtual void insert(int value);
@@ -49,8 +50,9 @@ class RBTree : public Tree {
     void del(RBTreeNode* node);
     int minimum();
     RBTreeNode* successor(RBTreeNode* node);
-  private:
-    virtual RBTreeNode* root() override; 
+
+ private:
+    virtual RBTreeNode* root() override;
     using Tree::set_root;
 
     void left_rotate(RBTreeNode* node1);
@@ -66,6 +68,6 @@ class RBTree : public Tree {
     void transparent(RBTreeNode* node1, RBTreeNode* node2);
 };
 
-} //heyi
+}  // namespace heyi
 
-#endif //RBTREE_H
+#endif  // RBTREE_H_

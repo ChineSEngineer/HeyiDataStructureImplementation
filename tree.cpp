@@ -1,3 +1,4 @@
+// Copyright ChineSEngineer
 #include <tree.h>
 
 namespace heyi {
@@ -6,17 +7,17 @@ TreeNode::~TreeNode() {
 }
 
 int TreeNode::height() {
-    if(this->left() == nullptr && this->right() == nullptr) {
+    if (this->left() == nullptr && this->right() == nullptr) {
         return 0;
     }
-    
+
     int lh = 0, rh = 0;
     if (this->left() != nullptr) {
         lh = this->left()->height();
     }
     if (this->right() != nullptr) {
         rh = this->right()->height();
-    } 
+    }
     if (lh > rh) {
         return lh + 1;
     } else {
@@ -27,7 +28,7 @@ int TreeNode::height() {
 int TreeNode::depth() {
     TreeNode* cur = this;
     int depth = 0;
-    while(cur->parent() != nullptr) {
+    while (cur->parent() != nullptr) {
         cur = cur->parent();
         depth += 1;
     }
@@ -47,7 +48,7 @@ Tree::~Tree() {
 }
 
 void Tree::set_root(TreeNode* root) {
-    _root = root; 
+    _root = root;
     if (root != nullptr) {
         root->set_parent(nullptr);
     }
@@ -83,4 +84,4 @@ void Tree::delete_subtree(TreeNode* node) {
     delete node;
 }
 
-} //heyi
+}  // namespace heyi
